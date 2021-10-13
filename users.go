@@ -83,6 +83,23 @@ func (s *UsersService) GetByUsername(ctx context.Context, realm, username string
 	return users, res, nil
 }
 
+// GetByUserId get a single user by ud.
+func (s *UsersService) GetByUserId(ctx context.Context, realm, userID string) (*User, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/%s", realm, userID)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var user *User
+	res, err := s.keycloak.Do(ctx, req, &user)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return user, res, nil
+}
+
 // Delete user.
 func (s *UsersService) Delete(ctx context.Context, realm, userID string) (*http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/users/%s", realm, userID)
