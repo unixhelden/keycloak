@@ -127,6 +127,8 @@ func TestUsersService_GetByUsername(t *testing.T) {
 	}
 }
 
+// TODO: Implement Test Method for GetByUserID
+
 func TestUsersService_ResetPassword(t *testing.T) {
 	k := client(t)
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/zemirco/keycloak"
+	"github.com/unixhelden/keycloak"
 	"golang.org/x/oauth2"
 )
 
