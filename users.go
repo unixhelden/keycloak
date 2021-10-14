@@ -170,7 +170,7 @@ func (s *UsersService) RemoveRealmRoles(ctx context.Context, realm, userID strin
 
 // GetClientRoles gets the currently mapped roles for an user.
 func (s *UsersService) GetClientRoles(ctx context.Context, realm, userID, clientID string) ([]*Role, *http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/users/%s/roles-mappings/clients/%s", realm, userID, clientID)
+	u := fmt.Sprintf("admin/realms/%s/users/%s/role-mappings/clients/%s", realm, userID, clientID)
 	req, err := s.keycloak.NewRequest(http.MethodPost, u, nil)
 	if err != nil {
 		return nil, nil, err
