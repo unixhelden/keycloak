@@ -50,8 +50,8 @@ func (s *UsersService) Create(ctx context.Context, realm string, user *User) (*h
 }
 
 // Update an existing user.
-func (s *UsersService) Update(ctx context.Context, realm string, user *User) (*http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/users", realm)
+func (s *UsersService) Update(ctx context.Context, realm string, userId string, user *User) (*http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/%s", realm, userId)
 	req, err := s.keycloak.NewRequest(http.MethodPut, u, user)
 	if err != nil {
 		return nil, err
