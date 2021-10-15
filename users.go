@@ -49,6 +49,17 @@ func (s *UsersService) Create(ctx context.Context, realm string, user *User) (*h
 	return s.keycloak.Do(ctx, req, nil)
 }
 
+// Update an existing user.
+func (s *UsersService) Update(ctx context.Context, realm string, user *User) (*http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users", realm)
+	req, err := s.keycloak.NewRequest(http.MethodPut, u, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.keycloak.Do(ctx, req, nil)
+}
+
 // List users.
 func (s *UsersService) List(ctx context.Context, realm string) ([]*User, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/users", realm)
