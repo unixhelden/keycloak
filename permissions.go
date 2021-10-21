@@ -125,3 +125,20 @@ func (s *PermissionsService) CreateScopePermission(ctx context.Context, realm, c
 
 	return &created, res, nil
 }
+
+// GetPermissionsAssignedToPolicy gets scope based permissions associated to an policy by policyID.
+func (s *PermissionsService) GetPermissionsAssignedToPolicy(ctx context.Context, realm string, clientID string, policyID string) ([]*Permission, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/clients/%s/authz/resource-server/policy/%s/dependentPolicies", realm, clientID, policyID)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var permission []*Permission
+	res, err := s.keycloak.Do(ctx, req, &permission)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return permission, res, nil
+}
