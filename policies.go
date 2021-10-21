@@ -84,6 +84,23 @@ func (s *PoliciesService) List(ctx context.Context, realm, clientID string) ([]*
 	return policies, res, nil
 }
 
+// ListRolePolicies
+func (s *PoliciesService) ListRolePolicies(ctx context.Context, realm string, clientID string) ([]*RolePolicy, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/clients/%s/authz/resource-server/policy?permission=false", realm, clientID)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var policies []*RolePolicy
+	res, err := s.keycloak.Do(ctx, req, &policies)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return policies, res, nil
+}
+
 // CreateUserPolicy creates a new user policy.
 func (s *PoliciesService) CreateUserPolicy(ctx context.Context, realm, clientID string, policy *UserPolicy) (*UserPolicy, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/clients/%s/authz/resource-server/policy/user", realm, clientID)
