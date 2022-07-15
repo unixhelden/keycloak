@@ -61,8 +61,8 @@ func (s *UsersService) Update(ctx context.Context, realm string, userId string, 
 }
 
 // List users.
-func (s *UsersService) List(ctx context.Context, realm string) ([]*User, *http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/users", realm)
+func (s *UsersService) List(ctx context.Context, realm string, first int, max int) ([]*User, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users?first=%d&max=%d", realm, first, max)
 	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
 	if err != nil {
 		return nil, nil, err
