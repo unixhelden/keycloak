@@ -60,7 +60,7 @@ func (s *UsersService) Update(ctx context.Context, realm string, userId string, 
 	return s.keycloak.Do(ctx, req, nil)
 }
 
-// List users.
+// List all users within the given range
 func (s *UsersService) List(ctx context.Context, realm string, first int, max int) ([]*User, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/users?first=%d&max=%d", realm, first, max)
 	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
@@ -75,6 +75,23 @@ func (s *UsersService) List(ctx context.Context, realm string, first int, max in
 	}
 
 	return users, res, nil
+}
+
+// Count the total amount of users
+func (s *UsersService) Count(ctx context.Context, realm string) (int, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/count", realm)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	var count int
+	res, err := s.keycloak.Do(ctx, req, &count)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return count, res, nil
 }
 
 // GetByUsername get a single user by username.
